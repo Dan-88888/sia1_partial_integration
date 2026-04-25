@@ -1,0 +1,117 @@
+@extends('layouts.app')
+
+@section('content')
+<!-- Page Header -->
+<div class="section-header" data-aos="fade-down">
+    <div>
+        <h1 class="page-title"><i class="fas fa-certificate me-2" style="color:var(--gold);"></i> Certificate of Registration</h1>
+        <p class="page-subtitle">Academic Year {{ date('Y') }}-{{ date('Y')+1 }} | Semester 1</p>
+    </div>
+    <button onclick="window.print()" class="btn btn-gold btn-sm">
+        <i class="fas fa-print me-1"></i> Print Certificate
+    </button>
+</div>
+
+<div class="glass-card" id="certificate-content" data-aos="fade-up">
+    <!-- Certificate Header -->
+    <div class="text-center mb-4" style="padding-bottom:1.5rem;border-bottom:1px solid var(--glass-border);">
+        <div style="width:70px;height:70px;border-radius:50%;background:rgba(255,215,0,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+            <i class="fas fa-graduation-cap" style="font-size:1.8rem;color:var(--gold);"></i>
+        </div>
+        <h2 style="font-weight:800;font-size:1.5rem;color:var(--text-primary);">Certificate of Registration</h2>
+        <p style="color:var(--text-muted);font-size:0.9rem;">Academic Year {{ date('Y') }}-{{ date('Y')+1 }} | Semester 1</p>
+    </div>
+    
+    <!-- Student Info -->
+    <div class="row g-4 mb-4" style="padding:1rem 0;border-bottom:1px solid var(--glass-border);">
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between mb-2">
+                <span style="color:var(--text-muted);font-size:0.85rem;">Student Name</span>
+                <span style="font-weight:600;">{{ $student->user->name }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <span style="color:var(--text-muted);font-size:0.85rem;">Student Number</span>
+                <span style="font-weight:600;color:var(--gold);">{{ $student->student_number }}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between mb-2">
+                <span style="color:var(--text-muted);font-size:0.85rem;">Course</span>
+                <span style="font-weight:600;">{{ $student->course ?? 'Not specified' }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <span style="color:var(--text-muted);font-size:0.85rem;">Year Level</span>
+                <span style="font-weight:600;">{{ $student->year_level ?? 'Not specified' }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Enrolled Subjects Table -->
+    <div class="card-header-modern">
+        <i class="fas fa-book-open"></i>
+        <h4>Enrolled Subjects</h4>
+    </div>
+    <div class="table-responsive mb-4">
+        <table class="table-modern w-100">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Subject Name</th>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Room</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($enrollments as $enrollment)
+                    <tr>
+                        <td><span style="color:var(--gold);font-weight:600;">{{ $enrollment->subject->subject_code }}</span></td>
+                        <td style="color:var(--text-primary);font-weight:500;">{{ $enrollment->subject->subject_name }}</td>
+                        <td><span class="status-badge info">{{ $enrollment->subject->day }}</span></td>
+                        <td>{{ date('h:i A', strtotime($enrollment->subject->start_time)) }} - {{ date('h:i A', strtotime($enrollment->subject->end_time)) }}</td>
+                        <td>{{ $enrollment->subject->room }}</td>
+                        <td style="text-align:center;font-weight:700;">{{ $enrollment->subject->units }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center" style="padding:2rem;color:var(--text-muted);">No enrolled subjects.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" style="text-align:right;font-weight:700;color:var(--gold);padding:0.8rem 1rem;border-top:1px solid var(--glass-border);">Total Units:</td>
+                    <td style="text-align:center;font-weight:800;font-size:1.1rem;color:var(--text-primary);padding:0.8rem 1rem;border-top:1px solid var(--glass-border);">{{ $totalUnits }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    
+    <!-- Footer -->
+    <div class="text-center" style="padding-top:1rem;border-top:1px solid var(--glass-border);">
+        <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.25rem;">
+            This certificate is generated by the University Registration System
+        </p>
+        <p style="color:var(--text-muted);font-size:0.8rem;margin:0;">
+            Date Generated: {{ now()->format('F d, Y') }}
+        </p>
+    </div>
+</div>
+
+@push('scripts')
+<style>
+    @media print {
+        .navbar-main, .sidebar, footer, .scroll-top-btn, .section-header .btn, .loading-screen { display: none !important; }
+        .main-wrapper { margin-left: 0 !important; margin-top: 0 !important; }
+        .glass-card { background: white !important; color: #000 !important; border: 1px solid #ddd !important; }
+        .table-modern thead th { background: #f0f0f0 !important; color: #000 !important; }
+        .table-modern tbody td { color: #333 !important; }
+        .status-badge { border: 1px solid #999 !important; background: #eee !important; color: #333 !important; }
+        body { background: white !important; }
+        .stat-label, .card-header-modern h4 { color: #333 !important; }
+        span[style*="color:var(--gold)"] { color: #000 !important; }
+    }
+</style>
+@endpush
+@endsection

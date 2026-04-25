@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* ── Page Loader ── */
+#page-loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 53, 0.93);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+    backdrop-filter: blur(2px);
+}
+#page-loader.psl-visible {
+    opacity: 1;
+    pointer-events: all;
+}
+.psl-ring {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 215, 0, 0.18);
+    border-top-color: #FFD700;
+    animation: psl-spin 0.75s linear infinite;
+}
+.psl-dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 20px;
+}
+.psl-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.4);
+    animation: psl-pulse 1.2s ease-in-out infinite;
+}
+.psl-dot:nth-child(2) { animation-delay: 0.2s; }
+.psl-dot:nth-child(3) { animation-delay: 0.4s; }
+.psl-text {
+    margin-top: 14px;
+    color: #FFD700;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+@keyframes psl-spin  { to { transform: rotate(360deg); } }
+@keyframes psl-pulse {
+    0%, 100% { background: rgba(255, 215, 0, 0.2); transform: scale(0.85); }
+    50%       { background: #FFD700;                transform: scale(1.15); }
+}
+
+/* ── PSU Brand ── */
+.psu-blue-bg  { background: linear-gradient(135deg, #000035 0%, #00004d 100%); }
+.psu-gold-bg  { background: linear-gradient(135deg, #FFD700 0%, #FDB931 100%); }
+.sidebar-active {
+    background: linear-gradient(90deg, #FFD700 0%, #FDB931 100%);
+    color: #000035;
+    font-weight: bold;
+}
+.psu-scrollbar::-webkit-scrollbar        { width: 4px; }
+.psu-scrollbar::-webkit-scrollbar-track  { background: rgba(255,255,255,.05); }
+.psu-scrollbar::-webkit-scrollbar-thumb  { background: rgba(255,215,0,.3); border-radius: 2px; }
+.psu-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,215,0,.6); }
+
+/* ── Shared Logo Container (admin mobile header + student standalone pages) ── */
+.logo-container {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFD700, #FDB931);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.25);
+}
+.logo-container img {
+    width: 100%; height: 100%;
+    object-fit: cover; border-radius: 50%;
+}

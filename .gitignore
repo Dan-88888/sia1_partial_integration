@@ -1,0 +1,22 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Laravel / PHP
+vendor/
+.env
+storage/logs/*.log
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+bootstrap/cache/
+
+# Build output
+/integration_frontendUI/main-frontend/build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
